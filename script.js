@@ -25,3 +25,23 @@ document.getElementById('languageSelect').addEventListener('change', (e) => {
 
 // Default language
 loadLanguage('en');
+let translations = {};
+
+async function loadLanguage(lang) {
+  const response = await fetch(`${lang}.json`);
+  translations = await response.json();
+  document.getElementById("welcomeText").innerText = translations.welcome;
+}
+
+document.getElementById("language").addEventListener("change", (e) => {
+  loadLanguage(e.target.value);
+});
+
+document.getElementById("pickBtn").addEventListener("click", () => {
+  const name = document.getElementById("nameInput").value;
+  const greeting = translations.greeting || "Hello";
+  document.getElementById("welcomeText").innerText = `${greeting}, ${name}!`;
+});
+
+// Load default language
+loadLanguage("el");
